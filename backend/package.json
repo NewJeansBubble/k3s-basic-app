@@ -4,7 +4,9 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node --watch app.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "express": "^5.2.1"
@@ -12,6 +14,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.6.0",
-    "globals": "^17.7.0"
+    "globals": "^17.7.0",
+    "prettier": "3.9.4"
   }
 }

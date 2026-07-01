@@ -2,8 +2,8 @@
   "name": "basic-api",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "node --watch src/app.js",
+    "start": "bun src/app.js",
+    "dev": "bun --watch src/app.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

@@ -1,4 +1,8 @@
-import { UserEmailAlreadyExistsError, UserNotFoundError } from './user.errors.js';
+import {
+  UserEmailAlreadyExistsError,
+  UserNotFoundError,
+  UserAccessDeniedError,
+} from './user.errors.js';
 import * as userRepository from './user.repository.js';
 
 export async function createUser({ name, email, password }) {
@@ -19,7 +23,9 @@ export async function createUser({ name, email, password }) {
   });
 }
 
-export async function findUserById(id) {
+export async function findUserById(id, authenticatedUser) {
+  ensureUserAccess(id, authenticatedUser);
+
   const user = await userRepository.findUserById(id);
 
   if (!user) {
@@ -39,14 +45,10 @@ export async function findUserByEmail(email) {
   return user;
 }
 
-export async function updateUserById(id, changes) {
-  const currentUser = await userRepository.findUserById(id);
+export async function updateUserById(id, changes, authenticatedUser) {
+  ensureUserAccess(id, authenticatedUser);
 
-  if (!currentUser) {
-    throw new UserNotFoundError();
-  }
-
-  if (changes.email) {
+  if (changes.email !== undefined) {
     const userWithEmail = await userRepository.findUserByEmail(changes.email);
 
     if (userWithEmail && userWithEmail.id !== id) {
@@ -54,13 +56,30 @@ export async function updateUserById(id, changes) {
     }
   }
 
-  return userRepository.updateUserById(id, changes);
+  const updatedUser = await userRepository.updateUserById(id, changes);
+
+  if (!updatedUser) {
+    throw new UserNotFoundError();
+  }
+
+  return updatedUser;
 }
 
-export async function deleteUserById(id) {
+export async function deleteUserById(id, authenticatedUser) {
+  ensureUserAccess(id, authenticatedUser);
+
   const deletedUser = await userRepository.deleteUserById(id);
 
   if (!deletedUser) {
     throw new UserNotFoundError();
+  }
+}
+
+function ensureUserAccess(targetUserId, authenticatedUser) {
+  const isOwner = authenticatedUser?.userId === targetUserId;
+  const isAdmin = authenticatedUser?.role === 'ADMIN';
+
+  if (!isOwner && !isAdmin) {
+    throw new UserAccessDeniedError();
   }
 }

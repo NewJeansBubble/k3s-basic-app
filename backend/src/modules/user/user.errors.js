@@ -11,3 +11,9 @@ export class UserNotFoundError extends AppError {
     super('User not found', 404, 'USER_NOT_FOUND');
   }
 }
+
+export class UserAccessDeniedError extends AppError {
+  constructor() {
+    super('You cannot access this user', 403, 'USER_ACCESS_DENIED');
+  }
+}

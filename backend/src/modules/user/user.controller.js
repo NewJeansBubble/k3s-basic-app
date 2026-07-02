@@ -9,14 +9,14 @@ export async function createUser(req, res) {
 
 export async function findUserById(req, res) {
   const id = parseUserId(req.params.id);
-  const user = await userService.findUserById(id);
+  const user = await userService.findUserById(id, req.auth);
 
   return res.status(200).json(user);
 }
 
 export async function updateUser(req, res) {
   const id = parseUserId(req.params.id);
-  const user = await userService.updateUserById(id, req.body);
+  const user = await userService.updateUserById(id, req.body, req.auth);
 
   return res.status(200).json(user);
 }
@@ -24,7 +24,7 @@ export async function updateUser(req, res) {
 export async function deleteUser(req, res) {
   const id = parseUserId(req.params.id);
 
-  await userService.deleteUserById(id);
+  await userService.deleteUserById(id, req.auth);
 
   return res.status(204).send();
 }

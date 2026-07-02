@@ -41,7 +41,7 @@ k3s-basic-app/
 - Docker or another container runtime
 - Basic knowledge of Kubernetes concepts
 
-## Getting Starded
+## Getting Started
 Clone the repository:
 ```bash
 git clone https://github.com/NewJeansBubble/k3s-basic-app.git

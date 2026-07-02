@@ -5,3 +5,9 @@ export class InvalidCredentialsError extends AppError {
     super('Invalid email or password', 401, 'INVALID_CREDENTIALS');
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor() {
+    super('Authentication required', 401, 'UNAUTHORIZED');
+  }
+}

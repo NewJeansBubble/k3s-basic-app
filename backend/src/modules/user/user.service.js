@@ -19,6 +19,26 @@ export async function createUser({ name, email, password }) {
   });
 }
 
+export async function findUserById(id) {
+  const user = await userRepository.findUserById(id);
+
+  if (!user) {
+    throw new UserNotFoundError();
+  }
+
+  return user;
+}
+
+export async function findUserByEmail(email) {
+  const user = await userRepository.findUserByEmail(email);
+
+  if (!user) {
+    throw new UserNotFoundError();
+  }
+
+  return user;
+}
+
 export async function updateUserById(id, changes) {
   const currentUser = await userRepository.findUserById(id);
 

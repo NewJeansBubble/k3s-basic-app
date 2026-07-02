@@ -23,5 +23,12 @@ export async function verifyAccessToken(token) {
     algorithms: ['HS256'],
   });
 
-  return payload;
+  const userId = Number(payload.sub);
+  const role = payload.role;
+
+  if (!Number.isInteger(userId) || userId <= 0 || !['USER', 'ADMIN'].includes(role)) {
+    throw new Error('Invalid access token payload');
+  }
+
+  return { userId, role };
 }

@@ -38,11 +38,15 @@ export async function createUser({ name, email, passwordHash }) {
   return user;
 }
 
-export async function updateUserById(id, {name, email}) {
+export async function updateUserById(id, { name, email }) {
   const changes = {};
 
-  if (name !== undefined) { changes.name = name };
-  if (email !== undefined) { changes.email = email };
+  if (name !== undefined) {
+    changes.name = name;
+  }
+  if (email !== undefined) {
+    changes.email = email;
+  }
 
   const [user] = await db
     .update(users)

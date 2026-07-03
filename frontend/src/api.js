@@ -37,6 +37,24 @@ export function getUser(id, token) {
   })
 }
 
+export function updateUser(id, changes, token) {
+  return request(`/users/${id}`, {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(changes),
+  })
+}
+
+export function getSystemInfo(token) {
+  return request('/system/info', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+}
+
 export function registerUser(name, email, password) {
   return request('/users', {
     method: 'POST',

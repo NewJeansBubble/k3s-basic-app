@@ -2,6 +2,7 @@ import express from 'express';
 import { userRoutes } from './modules/user/user.routes.js';
 import { errorHandler } from './shared/middleware/error.handler.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
+import { systemRoutes } from './modules/system/system.routes.js';
 import { corsMiddleware } from './shared/middleware/cors.middleware.js';
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/system', systemRoutes);
 app.use('/users', userRoutes);
 
 app.use(errorHandler);

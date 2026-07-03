@@ -1,18 +1,27 @@
 import { useState } from 'react'
-import { login } from '../api.js'
+import { login, registerUser } from '../api.js'
 
-function LoginPage({ onLogin, onShowRegister }) {
+function RegisterPage({ onLogin, onShowLogin }) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
     setError('')
+
+    if (password !== passwordConfirmation) {
+      setError('Passwords do not match')
+      return
+    }
+
     setIsLoading(true)
 
     try {
+      await registerUser(name, email, password)
       const session = await login(email, password)
       onLogin(session)
     } catch (error) {
@@ -25,10 +34,23 @@ function LoginPage({ onLogin, onShowRegister }) {
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <h1>K3s Basic App</h1>
-        <p>Sign in to continue</p>
+        <h1>Create account</h1>
+        <p>Register to continue</p>
 
         <form className="auth-form" onSubmit={handleSubmit}>
+          <label>
+            Name
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              autoComplete="name"
+              minLength={2}
+              maxLength={100}
+              required
+            />
+          </label>
+
           <label>
             Email
             <input
@@ -46,7 +68,23 @@ function LoginPage({ onLogin, onShowRegister }) {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              autoComplete="current-password"
+              autoComplete="new-password"
+              minLength={8}
+              maxLength={128}
+              required
+            />
+          </label>
+
+          <label>
+            Confirm password
+            <input
+              type="password"
+              value={passwordConfirmation}
+              onChange={(event) =>
+                setPasswordConfirmation(event.target.value)
+              }
+              autoComplete="new-password"
+              maxLength={128}
               required
             />
           </label>
@@ -58,14 +96,14 @@ function LoginPage({ onLogin, onShowRegister }) {
           )}
 
           <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign in'}
+            {isLoading ? 'Creating account...' : 'Create account'}
           </button>
         </form>
 
         <p className="auth-switch">
-          Don&apos;t have an account?{' '}
-          <button type="button" onClick={onShowRegister}>
-            Create account
+          Already registered?{' '}
+          <button type="button" onClick={onShowLogin}>
+            Sign in
           </button>
         </p>
       </section>
@@ -73,4 +111,4 @@ function LoginPage({ onLogin, onShowRegister }) {
   )
 }
 
-export default LoginPage
+export default RegisterPage

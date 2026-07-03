@@ -36,3 +36,10 @@ export function getUser(id, token) {
     },
   })
 }
+
+export function registerUser(name, email, password) {
+  return request('/users', {
+    method: 'POST',
+    body: JSON.stringify({ name, email, password }),
+  })
+}

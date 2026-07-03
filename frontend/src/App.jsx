@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import LoginPage from './LoginPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 
 function App() {
   const [session, setSession] = useState(null)

@@ -63,6 +63,17 @@ describe('updateUserDto', () => {
     });
   });
 
+  test('normalizes an updated email', () => {
+    const result = updateUserDto.safeParse({
+      email: 'UPDATED@example.com',
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.data).toEqual({
+      email: 'updated@example.com',
+    });
+  });
+
   test('rejects an empty update', () => {
     const result = updateUserDto.safeParse({});
 

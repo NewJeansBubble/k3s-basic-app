@@ -37,6 +37,18 @@ function App() {
     setAuthPage('login')
   }
 
+  function handleUserUpdated(updatedUser) {
+    setSession((currentSession) => {
+      const updatedSession = {
+        ...currentSession,
+        user: updatedUser,
+      }
+
+      localStorage.setItem(SESSION_KEY, JSON.stringify(updatedSession))
+      return updatedSession
+    })
+  }
+
   if (!session) {
     if (authPage === 'register') {
       return (
@@ -55,7 +67,13 @@ function App() {
     )
   }
 
-  return <HomePage session={session} onLogout={handleLogout} />
+  return (
+    <HomePage
+      session={session}
+      onLogout={handleLogout}
+      onUserUpdated={handleUserUpdated}
+    />
+  )
 }
 
 export default App

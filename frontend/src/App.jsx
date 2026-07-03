@@ -1,20 +1,61 @@
 import { useState } from 'react'
 import './App.css'
+import HomePage from './pages/HomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import RegisterPage from './pages/RegisterPage.jsx'
 
-function App() {
-  const [session, setSession] = useState(null)
+const SESSION_KEY = 'k3s-basic-session'
 
-  if (!session) {
-    return <LoginPage onLogin={setSession} />
+function loadSession() {
+  const storedSession = localStorage.getItem(SESSION_KEY)
+
+  if (!storedSession) {
+    return null
   }
 
-  return (
-    <main className="home-page">
-      <h1>Welcome, {session.user.name}</h1>
-      <p>You are signed in as {session.user.email}</p>
-    </main>
-  )
+  try {
+    return JSON.parse(storedSession)
+  } catch {
+    localStorage.removeItem(SESSION_KEY)
+    return null
+  }
+}
+
+function App() {
+  const [session, setSession] = useState(loadSession)
+  const [authPage, setAuthPage] = useState('login')
+
+  function handleLogin(newSession) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(newSession))
+    setSession(newSession)
+    setAuthPage('login')
+  }
+
+  function handleLogout() {
+    localStorage.removeItem(SESSION_KEY)
+    setSession(null)
+    setAuthPage('login')
+  }
+
+  if (!session) {
+    if (authPage === 'register') {
+      return (
+        <RegisterPage
+          onLogin={handleLogin}
+          onShowLogin={() => setAuthPage('login')}
+        />
+      )
+    }
+
+    return (
+      <LoginPage
+        onLogin={handleLogin}
+        onShowRegister={() => setAuthPage('register')}
+      />
+    )
+  }
+
+  return <HomePage session={session} onLogout={handleLogout} />
 }
 
 export default App

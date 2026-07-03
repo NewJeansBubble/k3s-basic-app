@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-.login-page,
+.auth-page,
 .home-page {
   min-height: 100vh;
   display: grid;
@@ -10,7 +10,7 @@
   padding: 24px;
 }
 
-.login-card {
+.auth-card {
   width: 100%;
   max-width: 400px;
   padding: 32px;
@@ -19,34 +19,34 @@
   box-shadow: 0 10px 30px rgb(0 0 0 / 8%);
 }
 
-.login-card h1 {
+.auth-card h1 {
   margin: 0 0 8px;
 }
 
-.login-card > p {
+.auth-card > p {
   margin: 0 0 24px;
   color: #6b7280;
 }
 
-.login-form {
+.auth-form {
   display: grid;
   gap: 16px;
 }
 
-.login-form label {
+.auth-form label {
   display: grid;
   gap: 6px;
   font-weight: 600;
 }
 
-.login-form input {
+.auth-form input {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
 }
 
-.login-form button {
+.auth-form button {
   padding: 11px 16px;
   border: 0;
   border-radius: 6px;
@@ -55,7 +55,7 @@
   cursor: pointer;
 }
 
-.login-form button:disabled {
+.auth-form button:disabled {
   cursor: wait;
   opacity: 0.7;
 }
@@ -65,6 +65,77 @@
   color: #dc2626;
 }
 
+.auth-card > .auth-switch {
+  margin: 24px 0 0;
+  text-align: center;
+}
+
+.auth-switch button {
+  padding: 0;
+  border: 0;
+  color: #2563eb;
+  background: transparent;
+  cursor: pointer;
+}
+
 .home-page {
   text-align: center;
+}
+
+.home-card {
+  width: 100%;
+  max-width: 600px;
+  padding: 32px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 8%);
+  text-align: left;
+}
+
+.home-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.home-header h1,
+.home-header p {
+  margin: 0;
+}
+
+.home-header p {
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+.home-header button {
+  padding: 8px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.user-details {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.user-details div {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.user-details dt {
+  margin-bottom: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.user-details dd {
+  margin: 0;
+  font-weight: 600;
 }

@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD 
+.github
+
+# Bun
+node_modules
+coverage
+dist
+
+# IDEs
+.idea
+.vscode
+*.iml
+out
+
+# Secrets & Configs
+.env
+.env.*
+!.env.example
+
+# Local FIles
+*.log
+.DS_Store
+HELP.md
+
+# Others
+README.md

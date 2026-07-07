@@ -1,0 +1,23 @@
+# Node
+node_modules
+dist
+coverage
+
+# IDEs
+.idea
+.vscode
+*.iml
+out
+
+# Secrets & Configs
+.env
+.env.*
+!.env.example
+
+# Local FIles
+*.log
+.DS_Store
+HELP.md
+
+# Others
+README.md

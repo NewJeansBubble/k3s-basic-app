@@ -2,6 +2,7 @@
 .git
 .gitignore
 .gitattributes
+LICENSE
 
 # CI/CD 
 .github
@@ -29,3 +30,4 @@ HELP.md
 
 # Others
 README.md
+.dockerignore

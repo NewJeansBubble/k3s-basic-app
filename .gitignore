@@ -3,3 +3,6 @@ guides
 .env
 .env.*
 !.env.example
+
+# Kubernetes secrets
+deploy/*-secret.yaml

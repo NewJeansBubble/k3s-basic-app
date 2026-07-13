@@ -1,8 +1,23 @@
+# Node
 node_modules
-guides
+
+# Envs
 .env
 .env.*
 !.env.example
 
 # Kubernetes secrets
-deploy/*-secret.yaml
+*-secret.yaml
+*.secret.yaml
+
+# Editors
+.idea
+.vscode
+*.iml
+out
+
+# Local
+*.log
+.DS_Store
+HELP.md
+guides

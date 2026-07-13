@@ -1,0 +1,91 @@
+name: Publish container images
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - charts/**
+      - .github/**
+    
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Create semantic release
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          # Semantic Release need previous git history and tags
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx --yes semantic-release@25
+      
+      - name: Read generated version
+        id: version
+        shell: bash
+        run: |
+          tag="$(git describe --tags --exact-match --match 'v[0-9]*' HEAD 2>/dev/null || true)"
+          echo "value=${tag#v}" >> "$GITHUB_OUTPUT"
+      
+  publish:
+    name: Publish container images
+    needs:
+      - release
+
+    # When no commit generates a new version, the output is empty.
+    if: needs.release.outputs.version != ''
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Docker Buildx
+        uses: actions/setup-buildx-action@v4
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Build and push backend
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ghcr.io/newjeansbubble/k3s-basic-app-backend:${{ needs.release.outputs.version }}
+            ghcr.io/newjeansbubble/k3s-basic-app-backend:latest
+
+      - name: Build and push frontend
+        uses: docker/build-push-action@v7
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ghcr.io/newjeansbubble/k3s-basic-app-frontend:${{ needs.release.outputs.version }}
+            ghcr.io/newjeansbubble/k3s-basic-app-frontend:latest     

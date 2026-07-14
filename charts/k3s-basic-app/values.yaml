@@ -1,0 +1,52 @@
+# if the image is private: ghcr-secret
+imagePullSecret: ""
+
+backend:
+  replicas: 1
+
+  image: ghcr.io/newjeansbubble/k3s-basic-app-backend:1.0.1
+  imagePullPolicy: IfNotPresent
+
+  containerPort: 3000
+
+  service:
+    port: 3000
+
+  config:
+    port: "3000"
+    corsOrigin: "http://k3s-basic.local"
+    appEnv: "production"
+
+  secretName: backend-secret
+
+postgresql:
+  replicas: 1
+
+  image: postgres:17-alpine
+  imagePullPolicy: IfNotPresent
+
+  containerPort: 5432
+
+  service:
+    port: 5432
+
+  storage:
+    size: 1Gi
+
+  secretName: postgres-secret
+
+frontend:
+  replicas: 1
+
+  image: ghcr.io/newjeansbubble/k3s-basic-app-frontend:1.0.1
+  imagePullPolicy: IfNotPresent
+
+  containerPort: 80
+
+  service:
+    port: 80
+
+  ingress:
+    className: traefik
+    host: k3s-basic.local
+

@@ -1,0 +1,15 @@
+backend:
+  image: k3s-basic-app-backend:dev
+  imagePullPolicy: Never
+
+  config:
+    corsOrigin: "http://k3s-basic-app.k8s.orb.local"
+    appEnv: "local"
+
+frontend:
+  image: k3s-basic-app-frontend:dev
+  imagePullPolicy: Never
+
+  ingress:
+    className: traefik
+    host: k3s-basic-app.k8s.orb.local

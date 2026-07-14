@@ -1,0 +1,10 @@
+K3s app installed successfully.
+
+URL:
+  http://{{ .Values.frontend.ingress.host }}
+
+Verify Resources:
+  kubectl get all -n {{ .Release.Namespace }}
+
+Verify Ingress:
+  kubectl get ingress -n {{ .Release.Namespace }}

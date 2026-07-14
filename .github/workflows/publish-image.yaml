@@ -95,3 +95,36 @@ jobs:
           tags: |
             ghcr.io/newjeansbubble/k3s-basic-app-frontend:${{ needs.release.outputs.version }}
             ghcr.io/newjeansbubble/k3s-basic-app-frontend:latest     
+  
+  update-helm-values:
+    name: Update Helm values
+    needs:
+      - release
+      - publish
+
+    if: needs.release.outputs.version != ''
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: master
+
+      - name: Update image versions
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          yq -i '
+            .backend.image = "ghcr.io/newjeansbubble/k3s-basic-app-backend:" + strenv(VERSION) |
+            .frontend.image = "ghcr.io/newjeansbubble/k3s-basic-app-frontend:" + strenv(VERSION)
+          ' charts/k3s-basic-app/values.yaml
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          commit-message: "chore(helm): update images to ${{ needs.release.outputs.version }}"
+          title: "chore(helm): update images to ${{ needs.release.outputs.version }}"
+          branch: automation/update-images
+          delete-branch: true

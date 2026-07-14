@@ -1,0 +1,25 @@
+# Git
+.git/
+.gitignore
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Operating system
+.DS_Store
+
+# Temporary files
+*.tmp
+*.log
+*.tgz
+
+# Environment and secret values
+.env
+.env.*
+values-secret.yaml
+values-*.secret.yaml
+
+# Local overrides
+values-local.yaml

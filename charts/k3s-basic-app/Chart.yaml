@@ -1,0 +1,7 @@
+apiVersion: v2
+name: k3s-basic-app
+description: Helm chart for k3s basic application
+type: application
+
+version: 0.1.0
+appVersion: "1.0.1"

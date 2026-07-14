@@ -15,9 +15,9 @@ app.get('/', (_req, res) => {
   return res.json({ message: 'Hello World' });
 });
 
-app.use('/auth', authRoutes);
-app.use('/system', systemRoutes);
-app.use('/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/system', systemRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(errorHandler);
 

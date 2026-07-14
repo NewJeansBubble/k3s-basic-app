@@ -1,5 +1,5 @@
 backend:
-  image: ghcr.io/newjeansbubble/k3s-basic-app-backend:1.1.1
+  image: ghcr.io/newjeansbubble/k3s-basic-app-backend:1.2.0
   imagePullPolicy: IfNotPresent
 
   config:
@@ -7,7 +7,7 @@ backend:
     appEnv: "local"
 
 frontend:
-  image: ghcr.io/newjeansbubble/k3s-basic-app-frontend:1.1.1
+  image: ghcr.io/newjeansbubble/k3s-basic-app-frontend:1.2.0
   imagePullPolicy: IfNotPresent
 
   ingress:

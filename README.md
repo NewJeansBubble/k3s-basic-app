@@ -38,7 +38,9 @@ k3s-basic-app/
 - Docker or another container runtime
 - Basic knowledge of Kubernetes concepts
 
-## Getting Started
+## Deploying Locally with K3s
+
+### Getting Started
 Clone the repository:
 ```bash
 git clone https://github.com/NewJeansBubble/k3s-basic-app.git
@@ -49,7 +51,6 @@ Check if the cluster is running:
 kubectl get nodes
 ```
 
-## Deploying to k3s
 To deploy the demo application you may use Helm to install the chart. But before you should create a secret resource for the pods into the cluster
 
 ### Backend Secret
@@ -87,4 +88,26 @@ kubectl create secret docker-registry ghcr-secret \
   --docker-server=ghcr.io \
   --docker-username='dummy-github-user' \
   --docker-password='github_pat_REAL_TOKEN_HERE'
+```
+Confirm if the secrets are created
+```bash
+kubectl get secrets -n k3s-basic-app
+```
+
+### Helm Install
+Install/Upgrade the helm chart with a namespace
+```bash
+helm upgrade --install k3s-basic-app charts/k3s-basic-app \
+  --namespace k3s-basic-app \
+  --create-namespace \
+  -f charts/k3s-basic-app/values-orbstack.yaml \
+  --wait \
+  --timeout 5m
+```
+
+### Helm Uninstall
+Uninstall the chart and the namespace with this command
+```bash
+helm uninstall k3s-basic-app -n k3s-basic-app
+kubectl delete namespace k3s-basic-app
 ```

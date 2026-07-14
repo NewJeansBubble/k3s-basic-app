@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-backend-config
+data:
+  PORT: {{ .Values.backend.config.port | quote }}
+  CORS_ORIGIN: {{ .Values.backend.config.corsOrigin | quote }}
+  APP_ENV: {{ .Values.backend.config.appEnv | quote }}
+  APP_VERSION: {{ .Chart.AppVersion | quote }}

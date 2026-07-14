@@ -1,14 +1,14 @@
 backend:
-  image: k3s-basic-app-backend:dev
-  imagePullPolicy: Never
+  image: ghcr.io/newjeansbubble/k3s-basic-app-backend:1.1.1
+  imagePullPolicy: IfNotPresent
 
   config:
     corsOrigin: "http://k3s-basic-app.k8s.orb.local"
     appEnv: "local"
 
 frontend:
-  image: k3s-basic-app-frontend:dev
-  imagePullPolicy: Never
+  image: ghcr.io/newjeansbubble/k3s-basic-app-frontend:1.1.1
+  imagePullPolicy: IfNotPresent
 
   ingress:
     className: traefik

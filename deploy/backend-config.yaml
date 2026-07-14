@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: k3s-api-config
-data:
-  PORT: "3000"
-  APP_ENV: "production"
-  APP_VERSION: "0.1.0"
-  CORS_ORIGIN: "http://k3s-basic.local"

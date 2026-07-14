@@ -7,10 +7,6 @@
 [![K3s](https://img.shields.io/badge/K3s-FFC61C?style=for-the-badge&logo=k3s&logoColor=000)](#)
 
 
-
-
-
-
 ## Overview
 
 This repository contains a basic full-stack monorepo application with a frontend and a backend, designed to practice deploying applications to a lightweight Kubernetes cluster using k3s.
@@ -54,4 +50,31 @@ kubectl get nodes
 ```
 
 ## Deploying to k3s
-todo...
+To deploy the demo application you may use Helm to install the chart. But before you should create a secret resource for the pods into the cluster
+
+### Backend Secret
+Create the secret at the cluster
+```bash
+kubectl create secret generic backend-secret \
+  --namespace k3s-basic-app \
+  --from-literal=DATABASE_URL='postgres://dummy_user:dummy_password@postgres:5432/dummy_db' \
+  --from-literal=JWT_SECRET='dummy-jwt-secret-with-more-than-32-characters' \
+  --from-literal=JWT_EXPIRES_IN='1h'
+```
+
+Verify it
+
+```bash
+kubectl describe secret backend-secret \
+  --namespace k3s-basic-app
+```
+
+### GHCR Secret
+If the registry is private create this
+```bash
+kubectl create secret docker-registry ghcr-secret \
+  --namespace k3s-basic-app \
+  --docker-server=ghcr.io \
+  --docker-username='dummy-github-user' \
+  --docker-password='github_pat_REAL_TOKEN_HERE'
+```

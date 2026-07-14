@@ -69,6 +69,16 @@ kubectl describe secret backend-secret \
   --namespace k3s-basic-app
 ```
 
+### PostgreSql Secret
+Create the secret at the cluster
+```bash
+kubectl create secret generic postgres-secret \
+  --namespace k3s-basic-app \
+  --from-literal=POSTGRES_USER='dummy_user' \
+  --from-literal=POSTGRES_PASSWORD='dummy_password' \
+  --from-literal=POSTGRES_DB='dummy_db'
+```
+
 ### GHCR Secret
 If the registry is private create this
 ```bash
